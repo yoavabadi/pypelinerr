@@ -52,11 +52,10 @@ def test_break_operation():
 
 
 def test_fail_operation():
-    phases_with_break = ['phase_one', 'phase_two', 'phase_test_fail', 'phase_three']
-    wo = run_worker_operation(initial_options={'initial_option_1': 1}, phases=phases_with_break)
+    phases_with_fail = ['phase_one', 'phase_two', 'phase_test_fail', 'phase_three']
+    wo = run_worker_operation(initial_options={'initial_option_1': 1}, phases=phases_with_fail)
     assert wo.success is False
     assert wo.fail_traceback is not None
     assert 'option_for_second_phase' in wo.options
     assert wo.fail_phase is 'phase_test_fail'
     assert 'reached_third_phase' not in wo.options
-

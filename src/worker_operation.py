@@ -11,6 +11,7 @@ class WorkerOperation:
         self.fail_phase = None
         self.success = False
         self.fail_traceback = None
+        self.fail_message = None
 
     def run(self):
         try:

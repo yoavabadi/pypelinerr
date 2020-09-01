@@ -4,14 +4,14 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="worker-operation-yoavabadi",
+    name="worker_operation",
     version="0.0.1",
     author="Yoav Abadi",
     author_email="yoavabadi@gmail.com",
-    description="A Railway pattern based worker operation package",
+    description="A Railway pattern based operation package",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/yoavabadi/worker-operation",
+    url="https://github.com/yoavabadi/WorkerOperation",
     packages=setuptools.find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",
