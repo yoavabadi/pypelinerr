@@ -18,11 +18,12 @@ class WorkerOperation:
                 self.current_phase = phase
                 getattr(self, phase)()
             self.success = True
-        except Exception:
+        except Exception as e:
             if self.success:
                 self.break_phase = self.current_phase
             else:
                 self.fail_phase = self.current_phase
+                self.fail_message = e
                 self.fail_traceback = format_exc()
 
         self.operation_time = time() - self.operation_time
