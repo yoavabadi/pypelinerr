@@ -3,9 +3,11 @@ from traceback import format_exc
 
 
 class Operation:
-    def __init__(self, options={}):
+    def __init__(self, options={}, entry_phase=None):
         self.operation_time = time()
         self.options = options
+        self._entry_phase = entry_phase
+        self._phases = self.phases()
         self.current_phase = None
         self.break_phase = None
         self.fail_phase = None
@@ -15,7 +17,9 @@ class Operation:
 
     def run(self):
         try:
-            for phase in self.phases():
+            if self._entry_phase:
+                self._phases = self._phases[self._entry_phase.index(self._entry_phase):]
+            for phase in self._phases:
                 self.current_phase = phase
                 getattr(self, phase)()
             self.success = True
@@ -31,7 +35,7 @@ class Operation:
         return self
 
     def phases(self):
-        NotImplementedError()
+        raise NotImplementedError()
 
     def break_operation(self, message=None):
         self.success = True

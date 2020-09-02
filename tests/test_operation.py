@@ -28,8 +28,8 @@ class TestOperation(Operation):
             self.fail_phase()
 
 
-def run_operation(initial_options={}, phases=[]):
-    wo = TestOperation(initial_options)
+def run_operation(initial_options={}, phases=[], entry_phase=None):
+    wo = TestOperation(initial_options, entry_phase)
     if phases:
         wo.phases = lambda: phases
     return wo.run()
@@ -59,3 +59,10 @@ def test_fail_operation():
     assert 'option_for_second_phase' in wo.options
     assert wo.fail_phase is 'phase_test_fail'
     assert 'reached_third_phase' not in wo.options
+
+
+def test_entry_phase():
+    wo = run_operation(initial_options={'some_initial_options': 1}, entry_phase='phase_three')
+    assert wo.success is True
+    assert 'option_for_second_phase' not in wo.options
+    assert 'reached_third_phase' in wo.options
