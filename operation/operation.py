@@ -1,4 +1,4 @@
-from abc import ABC
+from abc import ABC, abstractmethod
 from time import time
 from traceback import format_exc
 from typing import Iterable
@@ -32,8 +32,9 @@ class Operation(ABC):
         self.operation_time = time() - self.operation_time
         return self
 
+    @abstractmethod
     def phases(self) -> Iterable[str]:
-        NotImplementedError()
+        raise NotImplementedError()
 
     def break_operation(self, message=None):
         self.success = True
