@@ -2,4 +2,4 @@
 """
 Railway Oriented Programming implementation for Python.
 """
-from .src.worker_operation import WorkerOperation
+from .operation import Operation

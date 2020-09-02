@@ -2,7 +2,7 @@ from time import time
 from traceback import format_exc
 
 
-class WorkerOperation:
+class Operation:
     def __init__(self, options={}):
         self.operation_time = time()
         self.options = options

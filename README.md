@@ -1,15 +1,15 @@
-# Worker Operation
+# Operation
 
 [Railway Oriented Programming](https://fsharpforfunandprofit.com/rop/) implementation for Python.
 
 ### Basic Usage
 
-1. Create a class that inherit from `WorkerOperation`, with `phases` method:
+1. Create a class that inherit from `Operation`, with `phases` method:
 ```python
-from worker_operation import WorkerOperation
+from operation import Operation
 
 
-class SomeWorkerOperation(WorkerOperation):
+class SomeOperation(Operation):
     def phases(self):
         return [
             'phase_one',
@@ -27,18 +27,18 @@ class SomeWorkerOperation(WorkerOperation):
     def phase_three(self):
         self.options['reached_third_phase'] = True
 ```
-2. in the worker manager, use `SomeWorkerOperation(options).run()`, where `options` are the input to the operation flow.
+2. in the operation manager, use `SomeOperation(options).run()`, where `options` are the input to the operation flow.
 
 ### Example
-For example, if you create a worker operation that first connects to a database, then fetches the a document by an id, validates it, and finally send a post request of the entry's user_id, it can look like this:
+For example, if you create an operation that first connects to a database, then fetches the a document by an id, validates it, and finally send a post request of the entry's user_id, it can look like this:
 ```python
 import requests
 from pymongo import MongoClient
 
-from worker_operation import WorkerOperation
+from operation import Operation
 
 
-class RetrieveDataAndPost(WorkerOperation):
+class RetrieveDataAndPost(Operation):
     def phases(self):
         return [
             'connect_to_mongo',

@@ -1,7 +1,7 @@
-from src.worker_operation import WorkerOperation
+from operation import Operation
 
 
-class TestWorkerOperation(WorkerOperation):
+class TestOperation(Operation):
     def phases(self):
         return [
             'phase_one',
@@ -28,15 +28,15 @@ class TestWorkerOperation(WorkerOperation):
             self.fail_phase()
 
 
-def run_worker_operation(initial_options={}, phases=[]):
-    wo = TestWorkerOperation(initial_options)
+def run_operation(initial_options={}, phases=[]):
+    wo = TestOperation(initial_options)
     if phases:
         wo.phases = lambda: phases
     return wo.run()
 
 
 def test_happy_trail():
-    wo = run_worker_operation()
+    wo = run_operation()
     assert wo.success is True
     assert 'option_for_second_phase' in wo.options
     assert 'reached_third_phase' in wo.options
@@ -44,7 +44,7 @@ def test_happy_trail():
 
 def test_break_operation():
     phases_with_break = ['phase_one', 'phase_two', 'phase_test_break', 'phase_three']
-    wo = run_worker_operation(initial_options={'initial_option_1': 1}, phases=phases_with_break)
+    wo = run_operation(initial_options={'initial_option_1': 1}, phases=phases_with_break)
     assert wo.success is True
     assert 'option_for_second_phase' in wo.options
     assert wo.break_phase is 'phase_test_break'
@@ -53,7 +53,7 @@ def test_break_operation():
 
 def test_fail_operation():
     phases_with_fail = ['phase_one', 'phase_two', 'phase_test_fail', 'phase_three']
-    wo = run_worker_operation(initial_options={'initial_option_1': 1}, phases=phases_with_fail)
+    wo = run_operation(initial_options={'initial_option_1': 1}, phases=phases_with_fail)
     assert wo.success is False
     assert wo.fail_traceback is not None
     assert 'option_for_second_phase' in wo.options
