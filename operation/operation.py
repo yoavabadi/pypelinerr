@@ -36,7 +36,7 @@ class Operation:
         return self
 
     def phases(self):
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def break_operation(self, message=None):
         self.success = True
