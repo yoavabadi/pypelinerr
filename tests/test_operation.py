@@ -53,6 +53,7 @@ def test_break_operation():
 
 def test_fail_operation():
     phases_with_fail = ['phase_one', 'phase_two', 'phase_test_fail', 'phase_three']
+
     wo = run_operation(initial_options={'initial_option_1': 1}, phases=phases_with_fail)
     assert wo.success is False
     assert wo.fail_traceback is not None
