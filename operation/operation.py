@@ -34,7 +34,7 @@ class Operation(ABC):
 
     @abstractmethod
     def phases(self) -> Iterable[str]:
-        raise NotImplementedError()
+        raise NotImplemented
 
     def break_operation(self, message=None):
         self.success = True
