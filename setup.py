@@ -11,7 +11,7 @@ setuptools.setup(
     description="A Railway pattern based operation package",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/yoavabadi/WorkerOperation",
+    url="https://github.com/yoavabadi/Operation",
     packages=setuptools.find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",
