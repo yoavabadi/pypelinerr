@@ -2,6 +2,7 @@ from operation import Operation
 
 
 class TestOperation(Operation):
+
     def phases(self):
         return [
             'phase_one',
