@@ -7,7 +7,6 @@ class Operation:
         self.operation_time = time()
         self.options = options
         self._entry_phase = entry_phase
-        self._phases = self.phases()
         self.current_phase = None
         self.break_phase = None
         self.fail_phase = None
@@ -17,9 +16,11 @@ class Operation:
 
     def run(self):
         try:
+            phases = self.phases()
             if self._entry_phase:
-                self._phases = self._phases[self._entry_phase.index(self._entry_phase):]
-            for phase in self._phases:
+                phases = phases[phases.index(self._entry_phase):]
+
+            for phase in phases:
                 self.current_phase = phase
                 getattr(self, phase)()
             self.success = True
