@@ -1,11 +1,13 @@
 from time import time
 from traceback import format_exc
+from abc import ABC, abstractmethod
 
 
-class Operation:
-    def __init__(self, options={}):
+class Operation(ABC):
+    def __init__(self, options={}, entry_phase=None):
         self.operation_time = time()
         self.options = options
+        self._entry_phase = entry_phase
         self.current_phase = None
         self.break_phase = None
         self.fail_phase = None
@@ -15,7 +17,12 @@ class Operation:
 
     def run(self):
         try:
-            for phase in self.phases():
+            phases = self.phases()
+            if self._entry_phase:
+                start_phase = phases.index(self._entry_phase)
+                phases = phases[start_phase:]
+
+            for phase in phases:
                 self.current_phase = phase
                 getattr(self, phase)()
             self.success = True
@@ -30,8 +37,9 @@ class Operation:
         self.operation_time = time() - self.operation_time
         return self
 
+    @abstractmethod
     def phases(self):
-        NotImplementedError()
+        raise NotImplementedError
 
     def break_operation(self, message=None):
         self.success = True
