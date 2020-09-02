@@ -1,11 +1,13 @@
+from abc import ABC
 from time import time
 from traceback import format_exc
+from typing import Iterable
 
 
-class Operation:
-    def __init__(self, options={}):
+class Operation(ABC):
+    def __init__(self, options=None):
+        self.options = options if options else {}
         self.operation_time = time()
-        self.options = options
         self.current_phase = None
         self.break_phase = None
         self.fail_phase = None
@@ -30,7 +32,7 @@ class Operation:
         self.operation_time = time() - self.operation_time
         return self
 
-    def phases(self):
+    def phases(self) -> Iterable[str]:
         NotImplementedError()
 
     def break_operation(self, message=None):
