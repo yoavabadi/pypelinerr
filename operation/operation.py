@@ -5,7 +5,7 @@ from typing import List
 
 
 class Operation(ABC):
-    def __init__(self, options=None, entry_phase=None):
+    def __init__(self, options=None, entry_phase=None, schema: Schema):
         self.options = options if options else {}
         self.operation_time = time()
         self._entry_phase = entry_phase
