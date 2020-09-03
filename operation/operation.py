@@ -1,13 +1,14 @@
 from abc import ABC, abstractmethod
 from time import time
 from traceback import format_exc
-from typing import Iterable
+from typing import List
 
 
 class Operation(ABC):
-    def __init__(self, options=None):
+    def __init__(self, options=None, entry_phase=None):
         self.options = options if options else {}
         self.operation_time = time()
+        self._entry_phase = entry_phase
         self.current_phase = None
         self.break_phase = None
         self.fail_phase = None
@@ -17,7 +18,12 @@ class Operation(ABC):
 
     def run(self):
         try:
-            for phase in self.phases():
+            phases = self.phases()
+            if self._entry_phase:
+                start_phase = phases.index(self._entry_phase)
+                phases = phases[start_phase:]
+
+            for phase in phases:
                 self.current_phase = phase
                 getattr(self, phase)()
             self.success = True
@@ -33,7 +39,7 @@ class Operation(ABC):
         return self
 
     @abstractmethod
-    def phases(self) -> Iterable[str]:
+    def phases(self) -> List[str]:
         raise NotImplemented
 
     def break_operation(self, message=None):
