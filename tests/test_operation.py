@@ -29,8 +29,8 @@ class TestOperation(Operation):
             self.fail_phase()
 
 
-def run_operation(initial_options={}, phases=[], entry_phase=None):
-    wo = TestOperation(initial_options, entry_phase)
+def run_operation(initial_options=None, phases=None, entry_phase=None):
+    wo = TestOperation(options=initial_options if initial_options else {}, entry_phase=entry_phase)
     if phases:
         wo.phases = lambda: phases
     return wo.run()
