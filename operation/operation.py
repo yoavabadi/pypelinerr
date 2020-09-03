@@ -20,6 +20,8 @@ class Operation(ABC):
         self.fail_message = None
 
     def run(self):
+        if self.schema:
+            self.schema.validate(self.options)
         try:
             self._run_phases()
         except Exception as e:
