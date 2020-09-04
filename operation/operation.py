@@ -58,7 +58,7 @@ class Operation(ABC):
         self.success = False
         raise Exception(message)
 
-    def on_exception(self, exception):
+    def on_exception(self, exception: Exception = None):
         self.fail_phase = self.current_phase
         self.fail_message = exception
         self.fail_traceback = format_exc()
