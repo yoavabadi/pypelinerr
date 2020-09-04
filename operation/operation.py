@@ -1,17 +1,17 @@
 from abc import ABC, abstractmethod
 from time import time
 from traceback import format_exc
-from typing import List
+from typing import Dict, List
 
-from schema import Schema
+from schema import Schema, SchemaError
 
 
 class Operation(ABC):
-    def __init__(self, options=None, entry_phase=None, schema: Schema = None):
-        self.schema = schema
-        self.options = options if options else {}
+    def __init__(self, options: Dict = None, entry_phase: str = None, schema: Schema = None):
         self.operation_time = time()
+        self.options = options if options else {}
         self._entry_phase = entry_phase
+        self.schema = schema
         self.current_phase = None
         self.break_phase = None
         self.fail_phase = None
@@ -20,32 +20,21 @@ class Operation(ABC):
         self.fail_message = None
 
     def run(self):
-        if self.schema:
-            self.schema.validate(self.options)
         try:
+            if self.schema:
+                self.schema.validate(self.options)
+
             self._run_phases()
+        except SchemaError as e:
+            self.on_exception(exception=e)
         except Exception as e:
             if self.success:
                 self.break_phase = self.current_phase
             else:
-                self.fail_phase = self.current_phase
-                self.fail_message = e
-                self.fail_traceback = format_exc()
+                self.on_exception(exception=e)
 
         self.operation_time = time() - self.operation_time
         return self
-
-    @abstractmethod
-    def phases(self) -> List[str]:
-        raise NotImplemented
-
-    def break_operation(self, message=None):
-        self.success = True
-        raise Exception(message)
-
-    def fail_operation(self, message=None):
-        self.success = False
-        raise Exception(message)
 
     def _run_phases(self):
         phases = self.phases()
@@ -56,3 +45,20 @@ class Operation(ABC):
             self.current_phase = phase
             getattr(self, phase)()
         self.success = True
+
+    @abstractmethod
+    def phases(self) -> List[str]:
+        raise NotImplemented
+
+    def break_operation(self, message: str = None):
+        self.success = True
+        raise Exception(message)
+
+    def fail_operation(self, message: str = None):
+        self.success = False
+        raise Exception(message)
+
+    def on_exception(self, exception):
+        self.fail_phase = self.current_phase
+        self.fail_message = exception
+        self.fail_traceback = format_exc()
