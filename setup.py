@@ -12,7 +12,7 @@ setuptools.setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/yoavabadi/operation",
-    requires=["schema>=0.7.2"],
+    requires=["schema"],
     packages=setuptools.find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",
