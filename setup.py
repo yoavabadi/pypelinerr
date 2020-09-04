@@ -5,13 +5,14 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="operation",
-    version="0.0.1",
+    version="0.0.2",
     author="Yoav Abadi",
     author_email="yoavabadi@gmail.com",
     description="A Railway pattern based operation package",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/yoavabadi/Operation",
+    url="https://github.com/yoavabadi/operation",
+    requires=["schema>=0.7.2"],
     packages=setuptools.find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",
