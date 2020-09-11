@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from time import time
 from traceback import format_exc
-from typing import Dict, List, Union, Optional
+from typing import Dict, List, Optional
 
 from schema import Schema, SchemaError
 
