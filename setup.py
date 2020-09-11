@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="operation",
-    version="0.0.2",
+    version="0.0.3",
     author="Yoav Abadi",
     author_email="yoavabadi@gmail.com",
     description="A Railway pattern based operation package",
