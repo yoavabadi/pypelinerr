@@ -1,13 +1,13 @@
 from abc import ABC, abstractmethod
 from time import time
 from traceback import format_exc
-from typing import Dict, List
+from typing import Dict, List, Union, Optional
 
 from schema import Schema, SchemaError
 
 
 class Operation(ABC):
-    def __init__(self, options: Dict = None, entry_phase: str = None, schema: Schema = None):
+    def __init__(self, options: Dict = None, entry_phase: str = None, schema: Schema = Schema(object)):
         self.operation_time = time()
         self.options = options if options else {}
         self._entry_phase = entry_phase
@@ -16,14 +16,12 @@ class Operation(ABC):
         self.break_phase = None
         self.fail_phase = None
         self.success = False
-        self.fail_traceback = None
-        self.fail_message = None
+        self.fail_traceback: Optional[str] = None
+        self.fail_message: Optional[str] = None
 
     def run(self):
         try:
-            if self.schema:
-                self.schema.validate(self.options)
-
+            self.schema.validate(self.options)
             self._run_phases()
         except SchemaError as e:
             self.on_exception(exception=e)
@@ -48,17 +46,17 @@ class Operation(ABC):
 
     @abstractmethod
     def phases(self) -> List[str]:
-        raise NotImplemented
+        raise NotImplementedError
 
-    def break_operation(self, message: str = None):
+    def break_operation(self, message: Optional[str] = None):
         self.success = True
         raise Exception(message)
 
-    def fail_operation(self, message: str = None):
+    def fail_operation(self, message: Optional[str] = None):
         self.success = False
         raise Exception(message)
 
-    def on_exception(self, exception: Exception = None):
+    def on_exception(self, exception: Optional[Exception] = None):
         self.fail_phase = self.current_phase
-        self.fail_message = exception
         self.fail_traceback = format_exc()
+        self.fail_message = str(exception) if exception else None
