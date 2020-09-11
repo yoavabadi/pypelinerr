@@ -7,11 +7,11 @@ from schema import Schema, SchemaError
 
 
 class Operation(ABC):
-    def __init__(self, options: Dict = None, entry_phase: str = None, schema: Schema = Schema(object)):
+    def __init__(self, options: Dict = None, entry_phase: str = None, schema: Optional[Schema] = None):
         self.operation_time = time()
         self.options = options if options else {}
         self._entry_phase = entry_phase
-        self.schema = schema
+        self.schema: Optional[Schema] = schema
         self.current_phase = None
         self.break_phase = None
         self.fail_phase = None
@@ -21,7 +21,8 @@ class Operation(ABC):
 
     def run(self):
         try:
-            self.schema.validate(self.options)
+            if self.schema:
+                self.schema.validate(self.options)
             self._run_phases()
         except SchemaError as e:
             self.on_exception(exception=e)
