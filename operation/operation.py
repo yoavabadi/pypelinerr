@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from time import time
 from traceback import format_exc
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, AnyStr
 
 from schema import Schema, SchemaError
 
@@ -49,11 +49,11 @@ class Operation(ABC):
     def phases(self) -> List[str]:
         raise NotImplementedError
 
-    def break_operation(self, message: Optional[str] = None):
+    def break_operation(self, message: Optional[AnyStr] = None):
         self.success = True
         raise Exception(message)
 
-    def fail_operation(self, message: Optional[str] = None):
+    def fail_operation(self, message: Optional[AnyStr] = None):
         self.success = False
         raise Exception(message)
 

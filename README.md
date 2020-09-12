@@ -36,7 +36,7 @@ class SomeOperation(Operation):
 ```
 2. in the operation manager, use `SomeOperation(options).run()`, where `options` are the input to the operation flow.
 
-### Example
+## Example
 For example, if you create an operation that first connects to a database, then fetches the a document by an id, validates it, and finally send a post request of the entry's user_id, it can look like this:
 ```python
 import requests
@@ -69,8 +69,83 @@ class RetrieveDataAndPost(Operation):
         selected_artist =  self.options.get('album').get('artist_name')
         requests.post('<Artists_Service_URL>', data={'selected_artist': selected_artist})
 ```
-
 ## Features
-- `schema` - 
-- `break_operation(message?)` - 
-- `fail_operation(message?)` - 
+### Break operation
+Calling the `break_operation(message?)` allows you to break from the operation's (event's handler) pipeline on an invalid result, without failing the whole operation.
+An example for such a use-case is when checking in a DataBase if an entity not exists, and if so - not continuing the operation.
+
+For example, in the following flow, we want to process a [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) event `OrderCreated` of our online shop, 
+where if the user details not present in our DB, we would not want to proceed, because only signed-up users can create an order:
+
+```python
+from operation import Operation
+
+
+class OrderCreated(Operation):
+    def phases(self):
+        return [
+            'validate_user_exists',
+            'create_an_order',
+            '...',
+            '...'
+        ]
+
+    def validate_user_exists(self):
+        user = db.user_collection.find_one({'id': self.options['user_id']})
+        if not user:
+            self.break_operation(message='user not in mongo collection')
+
+    def create_an_order(self):
+        ...
+
+```
+### Fail operation
+By calling `fail_operation(message?)`, we can stop *and* fail the operation.
+This can be very useful in case of, for example, a momentarily network connection issue with another service or a remote DB,
+when you will want to send the operation result object to a failed-queue, for later processing of the event from the phase
+it failed, and with the current options. 
+
+We can also `raise` an Exception and it will count as a failed-operation, but in a case where we have a wrapper around the service call /
+DB access which already catches the exception, this is very useful:
+
+Other Module that handle mongo connection:
+```python
+
+from pymongo import MongoClient
+
+
+class UserCollection:
+    def init_connection(self):
+        try:
+            return MongoClient('<MongoDB_URL>').db.user_collection
+        except Exception as e:
+            return None
+    ...
+```
+
+Our operation:
+```python
+from operation import Operation
+
+
+class OrderCreated(Operation):
+    def phases(self):
+        return [
+            'validate_user_exists',
+            'create_an_order',
+            '...',
+            '...'
+        ]
+
+    def validate_user_exists(self):
+        user_collection =  UserCollection().init_connection()
+        if not user_collection:
+            self.fail_operation(message='mongo connection failure')
+
+    def create_an_order(self):
+        ...
+
+```
+
+### Schema
+The Schema allows us to ...
