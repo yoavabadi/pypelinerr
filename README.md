@@ -1,13 +1,7 @@
 Operation
 =========
-|python-versions| |pypi-badge|
-
-.. |python-versions| image:: https://img.shields.io/pypi/pyversions/operation
-   :target: https://img.shields.io/pypi/pyversions/operation
-   :alt: Supported Python Versions
-.. |pypi-badge| image:: https://img.shields.io/pypi/v/operation.svg
-   :target: https://pypi.org/project/operation
-   :alt: PYPI Version
+[![python-versions](https://img.shields.io/pypi/pyversions/operation)](https://img.shields.io/pypi/pyversions/operation)
+[![pypi-badge](https://img.shields.io/pypi/v/operation.svg)](https://pypi.org/project/operation)
 
 [Railway Oriented Programming](https://fsharpforfunandprofit.com/rop/) implementation for Python.
 
