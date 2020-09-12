@@ -1,8 +1,21 @@
-# Operation
+Operation
+=========
+|python-versions| |pypi-badge|
+
+.. |python-versions| image:: https://img.shields.io/pypi/pyversions/operation
+   :target: https://img.shields.io/pypi/pyversions/operation
+   :alt: Supported Python Versions
+.. |pypi-badge| image:: https://img.shields.io/pypi/v/operation.svg
+   :target: https://pypi.org/project/operation
+   :alt: PYPI Version
 
 [Railway Oriented Programming](https://fsharpforfunandprofit.com/rop/) implementation for Python.
 
-### Basic Usage
+## Motivation
+Handling events that trigger a sequence of operations and side-effects can be extremely elegant using the railway pattern.
+This package can allow you to create a dedicated pipeline for each event, that will preform the tasks in an ordered fashion. 
+
+## Basic Usage
 
 1. Create a class that inherit from `Operation`, with `phases` method:
 ```python
@@ -62,3 +75,8 @@ class RetrieveDataAndPost(Operation):
         selected_artist =  self.options.get('album').get('artist_name')
         requests.post('<Artists_Service_URL>', data={'selected_artist': selected_artist})
 ```
+
+## Features
+- `schema` - 
+- `break_operation(message?)` - 
+- `fail_operation(message?)` - 
