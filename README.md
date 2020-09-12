@@ -70,6 +70,8 @@ class RetrieveDataAndPost(Operation):
         requests.post('<Artists_Service_URL>', data={'selected_artist': selected_artist})
 ```
 ## Features
+
+
 ### Break operation
 Calling the `break_operation(message?)` allows you to break from the operation's (event's handler) pipeline on an invalid result, without failing the whole operation.
 An example for such a use-case is when checking in a DataBase if an entity not exists, and if so - not continuing the operation.
@@ -99,6 +101,8 @@ class OrderCreated(Operation):
         ...
 
 ```
+
+
 ### Fail operation
 By calling `fail_operation(message?)`, we can stop *and* fail the operation.
 This can be very useful in case of, for example, a momentarily network connection issue with another service or a remote DB,
@@ -125,6 +129,7 @@ class UserCollection:
 
 Our operation:
 ```python
+from models.user import UserCollection
 from operation import Operation
 
 
@@ -148,4 +153,22 @@ class OrderCreated(Operation):
 ```
 
 ### Schema
-The Schema allows us to ...
+The Schema mechanism allows us to validate the messages (the event payload) been passed to the operation,
+before the operation itself starts:
+```python
+schema = Schema({'user_id': int, 'logged_in': bool})
+event_payload = {'user_id': 'not a number', 'logged_in': True}
+OrderCreated(options=event_payload, schema=schema).run()
+```
+This run will result in a failure, with a fail message of:
+```schema.SchemaUnexpectedTypeError: 'not a number' should be instance of 'int'```
+
+
+### entry_phase
+The entry phase allow us to use the operation from a specific phase, and skip it's previous phases.
+The most common use-case for this is re-running the operation in a case of failure, or using only a small part of the
+whole operation.
+```python
+event_payload = {'user_id': 123, 'logged_in': True}
+OrderCreated(options=event_payload, entry_phase='create_an_order').run()
+```
