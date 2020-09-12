@@ -49,7 +49,7 @@ def test_break_operation():
     wo = run_operation(initial_options={'initial_option_1': 1}, phases=phases_with_break)
     assert wo.success is True
     assert 'option_for_second_phase' in wo.options
-    assert wo.break_phase is 'phase_test_break'
+    assert wo.break_phase == 'phase_test_break'
     assert 'reached_third_phase' not in wo.options
 
 
@@ -60,7 +60,7 @@ def test_fail_operation():
     assert wo.fail_traceback is not None
     assert wo.fail_message is not None
     assert 'option_for_second_phase' in wo.options
-    assert wo.fail_phase is 'phase_test_fail'
+    assert wo.fail_phase == 'phase_test_fail'
     assert 'reached_third_phase' not in wo.options
 
 
