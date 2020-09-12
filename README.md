@@ -1,13 +1,14 @@
 Operation
 =========
-[![python-versions](https://img.shields.io/pypi/pyversions/operation)](https://img.shields.io/pypi/pyversions/operation)
+[![python-versions](https://img.shields.io/badge/python-3.6-blue?logo=python)](https://img.shields.io/pypi/pyversions/operation)
 [![pypi-badge](https://img.shields.io/pypi/v/operation.svg)](https://pypi.org/project/operation)
+[![license](https://img.shields.io/badge/license-MIT-blue.svg)](/LICENSE)
 
 [Railway Oriented Programming](https://fsharpforfunandprofit.com/rop/) implementation for Python.
 
 ## Motivation
-Handling events that trigger a sequence of operations and side-effects can be extremely elegant using the railway pattern.
-This package can allow you to create a dedicated pipeline for each event, that will preform the tasks in an ordered fashion. 
+Handling events that trigger a sequence of commands or side-effects can be extremely elegant using the railway pattern.
+This package can allow you to create a dedicated pipeline for each flow or event, that will preform the tasks in an ordered fashion. 
 
 ## Basic Usage
 
@@ -76,7 +77,7 @@ class RetrieveDataAndPost(Operation):
 Calling the `break_operation(message?)` allows you to break from the operation's (event's handler) pipeline on an invalid result, without failing the whole operation.
 An example for such a use-case is when checking in a DataBase if an entity not exists, and if so - not continuing the operation.
 
-For example, in the following flow, we want to process a [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) event `OrderCreated` of our online shop, 
+In the bellow flow, we want to process a [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) event named `OrderCreated` of our online shop, 
 where if the user details not present in our DB, we would not want to proceed, because only signed-up users can create an order:
 
 ```python
