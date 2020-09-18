@@ -4,14 +4,14 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="operation",
+    name="pypelinerr",
     version="0.0.4",
     author="Yoav Abadi",
     author_email="yoavabadi@gmail.com",
-    description="A Railway pattern based operation package",
+    description="A Railway pattern based pypeline package",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/yoavabadi/operation",
+    url="https://github.com/yoavabadi/pypelinerr",
     requires=["schema"],
     packages=setuptools.find_packages(),
     classifiers=[

@@ -2,4 +2,4 @@
 """
 Railway Oriented Programming implementation for Python.
 """
-from .operation import Operation
+from .pypelinerr import Pipeline

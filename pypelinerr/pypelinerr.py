@@ -6,7 +6,7 @@ from typing import Dict, List, Optional, AnyStr
 from schema import Schema, SchemaError
 
 
-class Operation(ABC):
+class Pipeline(ABC):
     def __init__(self, options: Dict = None, entry_phase: str = None, schema: Optional[Schema] = None):
         self.operation_time = time()
         self.options = options if options else {}
