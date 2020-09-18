@@ -1,6 +1,6 @@
 Pypelinerr
 =========
-ƒ[![python-versions](https://img.shields.io/badge/python-3.6-blue?logo=python)](https://img.shields.io/pypi/pyversions/pypelinerr)
+[![python-versions](https://img.shields.io/badge/python-3.6-blue?logo=python)](https://img.shields.io/pypi/pyversions/pypelinerr)
 [![pypi-badge](https://img.shields.io/pypi/v/pypelinerr.svg)](https://pypi.org/project/pypelinerr)
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](/LICENSE)
 
