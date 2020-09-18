@@ -19,4 +19,4 @@ jobs:
         pip install mypy
     - name: Type check with mypy
       run: |
-        mypy -p pipelinerr
+        mypy -p pypelinerr
