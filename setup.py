@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="pypelinerr",
-    version="0.0.5",
+    version="0.0.6",
     author="Yoav Abadi",
     author_email="yoavabadi@gmail.com",
     description="A Railway pattern based pypeline package",
